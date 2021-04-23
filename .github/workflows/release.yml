@@ -58,7 +58,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-18.04, macos-latest]
+        os: [ubuntu-18.04, macos-latest, windows-2019]
 
     steps:
       - name: Checkout repository
@@ -74,3 +74,20 @@ jobs:
         with:
           command: build
           args: --release
+
+      - name: Get release download URL
+        uses: actions/download-artifact@v1
+        with:
+          name: artifacts
+          path: artifacts
+
+      - name: Set release upload URL and release version
+        shell: bash
+        run: |
+          release_upload_url="$(cat artifacts/release-upload-url)"
+          echo "RELEASE_UPLOAD_URL=$release_upload_url" >> $GITHUB_ENV
+          echo "release upload url: $RELEASE_UPLOAD_URL"
+          release_version="$(cat artifacts/release-version)"
+          echo "RELEASE_VERSION=$release_version" >> $GITHUB_ENV
+          echo "release version: $RELEASE_VERSION"
+        
