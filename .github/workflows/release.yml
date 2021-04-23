@@ -90,4 +90,7 @@ jobs:
           release_version="$(cat artifacts/release-version)"
           echo "RELEASE_VERSION=$release_version" >> $GITHUB_ENV
           echo "release version: $RELEASE_VERSION"
+          cat artifacts/release-upload-url
+          cat $GITHUB_ENV
+          
         
