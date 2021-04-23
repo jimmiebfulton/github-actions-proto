@@ -66,6 +66,8 @@ jobs:
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
 
       - name: Run Cargo Build (Release)
         uses: actions-rs/cargo@v1
