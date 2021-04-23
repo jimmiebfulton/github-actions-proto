@@ -72,4 +72,5 @@ jobs:
       - name: Run Cargo Build (Release)
         uses: actions-rs/cargo@v1
         with:
-          command: build --release
+          command: build
+          args: --release
