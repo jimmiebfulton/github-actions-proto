@@ -47,3 +47,27 @@ jobs:
         with:
           name: artifacts
           path: artifacts
+
+
+  build-release:
+    name: build-release
+    needs: ['create-release']
+    runs-on: ${{ matrix.os }}
+    env:
+      RUST_BACKTRACE: 1
+
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, macos-latest]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+
+      - name: Run Cargo Build (Release)
+        uses: actions-rs/cargo@v1
+        with:
+          command: build --release
