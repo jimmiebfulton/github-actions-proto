@@ -53,7 +53,7 @@ jobs:
     env:
       RUST_BACKTRACE: 1
       TARGET_DIR: ./target
-      BINARY: github-actions-prototype
+      BINARY: github-actions-proto
 
     strategy:
       matrix:
