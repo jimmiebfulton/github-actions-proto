@@ -56,7 +56,14 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-18.04, macos-latest, windows-2019]
+        platform: [linux, osx, windows]
+        include:
+          - platform: linux
+            os: ubuntu-18.04
+          - platform: osx
+            os: macos-latest
+          - platform: windows
+            os: windows-2019
 
     steps:
       - name: Checkout repository
@@ -95,9 +102,9 @@ jobs:
         shell: bash
         run: |
           outdir="${{ env.TARGET_DIR }}"
-          staging="github-actions-proto-${{ env.RELEASE_VERSION }}-${{ matrix.os }}"
+          staging="github-actions-proto_${{ env.RELEASE_VERSION }}_${{ matrix.platform }}-x64"
           mkdir -p "$staging"
-          if [ "${{ matrix.os }}" = "windows-2019" ]; then
+          if [ "${{ matrix.platform }}" = "windows" ]; then
             cp "target/release/github-actions-proto.exe" "$staging/"
             7z a "$staging.zip" "$staging"
             echo "ASSET=$staging.zip" >> $GITHUB_ENV
@@ -116,4 +123,3 @@ jobs:
           asset_path: ${{ env.ASSET }}
           asset_name: ${{ env.ASSET }}
           asset_content_type: application/octet-stream
-        
