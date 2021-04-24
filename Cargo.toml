@@ -1,6 +1,6 @@
 [package]
 name = "github-actions-proto"
-version = "0.1.11"
+version = "0.1.12"
 authors = ["Jimmie Fulton <jimmie.fulton@gmail.com>"]
 edition = "2018"
 

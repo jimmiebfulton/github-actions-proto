@@ -84,7 +84,7 @@ jobs:
 
       - name: Strip Release Binary (linux and macos)
         if: matrix.platform == 'linux' || matrix.platform == 'macos'
-        run: strip "target/release/${{ BINARY }}"
+        run: strip "target/release/${{ env.BINARY }}"
 
       - name: Get release download URL
         uses: actions/download-artifact@v1
@@ -108,14 +108,14 @@ jobs:
         shell: bash
         run: |
           outdir="${{ env.TARGET_DIR }}"
-          staging="${{ BINARY }}_${{ env.RELEASE_VERSION }}_${{ matrix.platform }}-x64"
+          staging="${{ env.BINARY }}_${{ env.RELEASE_VERSION }}_${{ matrix.platform }}-x64"
           mkdir -p "$staging"
           if [ "${{ matrix.platform }}" = "windows" ]; then
-            cp "target/release/${{ BINARY }}.exe" "$staging/"
+            cp "target/release/${{ env.BINARY }}.exe" "$staging/"
             7z a "$staging.zip" "$staging"
             echo "ASSET=$staging.zip" >> $GITHUB_ENV
           else
-            cp "target/release/${{ BINARY }}" "$staging/"
+            cp "target/release/${{ env.BINARY }}" "$staging/"
             tar czf "$staging.tar.gz" "$staging"
             echo "ASSET=$staging.tar.gz" >> $GITHUB_ENV
           fi
