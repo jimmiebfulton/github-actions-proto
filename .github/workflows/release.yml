@@ -53,6 +53,7 @@ jobs:
     env:
       RUST_BACKTRACE: 1
       TARGET_DIR: ./target
+      BINARY: github-actions-prototype
 
     strategy:
       matrix:
@@ -83,7 +84,7 @@ jobs:
 
       - name: Strip Release Binary (linux and macos)
         if: matrix.platform == 'linux' || matrix.platform == 'macos'
-        run: strip "target/release/github-actions-proto"
+        run: strip "target/release/${{ BINARY }}"
 
       - name: Get release download URL
         uses: actions/download-artifact@v1
@@ -107,14 +108,14 @@ jobs:
         shell: bash
         run: |
           outdir="${{ env.TARGET_DIR }}"
-          staging="github-actions-proto_${{ env.RELEASE_VERSION }}_${{ matrix.platform }}-x64"
+          staging="${{ BINARY }}_${{ env.RELEASE_VERSION }}_${{ matrix.platform }}-x64"
           mkdir -p "$staging"
           if [ "${{ matrix.platform }}" = "windows" ]; then
-            cp "target/release/github-actions-proto.exe" "$staging/"
+            cp "target/release/${{ BINARY }}.exe" "$staging/"
             7z a "$staging.zip" "$staging"
             echo "ASSET=$staging.zip" >> $GITHUB_ENV
           else
-            cp "target/release/github-actions-proto" "$staging/"
+            cp "target/release/${{ BINARY }}" "$staging/"
             tar czf "$staging.tar.gz" "$staging"
             echo "ASSET=$staging.tar.gz" >> $GITHUB_ENV
           fi
